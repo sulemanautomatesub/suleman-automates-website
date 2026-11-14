@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product — How the AI Voice Assistant Works | Suleman Automates</title>
+  <meta name="description" content="How the Suleman Automates voice assistant handles incoming property calls, answers agreed questions, captures buyer and tenant requirements, and passes enquiries to your team.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%233e1519'/%3E%3Crect x='5' y='5' width='54' height='54' rx='10' fill='none' stroke='%23f2ecdc' stroke-width='3'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='27' font-weight='600' fill='%23f2ecdc' text-anchor='middle'%3ESA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <script>
+    try {
+      document.documentElement.classList.add('header-enter');
+      if (!sessionStorage.getItem('sa-intro-seen') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('intro-pending');
+        setTimeout(function () { document.documentElement.classList.remove('intro-pending', 'header-enter'); }, 4200);
+      } else {
+        setTimeout(function () { document.documentElement.classList.remove('header-enter'); }, 4200);
+      }
+    } catch (e) { document.documentElement.classList.remove('header-enter'); }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="assets/img/brand-monogram.png" alt="" width="48" height="48">
+        </span>
+        <span class="brand-name">Suleman Automates<small>Voice AI</small></span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="product.html" aria-current="page">Product</a>
+        <a class="nav-link" href="pricing.html">Pricing</a>
+        <a class="btn btn--primary btn--sm header-cta"
+           href="https://wa.me/923090196403?text=Hi%2C%20I%27d%20like%20to%20see%20the%20AI%20assistant%20demo%20for%20my%20real%20estate%20agency."
+           target="_blank" rel="noopener">Request a Demo</a>
+      </nav>
+
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Menu</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile" hidden>
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="product.html" aria-current="page">Product</a>
+    <a class="nav-link" href="pricing.html">Pricing</a>
+    <a class="btn btn--primary"
+       href="https://wa.me/923090196403?text=Hi%2C%20I%27d%20like%20to%20see%20the%20AI%20assistant%20demo%20for%20my%20real%20estate%20agency."
+       target="_blank" rel="noopener">Request a Demo</a>
+  </nav>
+
+  <main id="main">
+    <!-- ================= Hero + 3D phone ================= -->
+    <section class="hero hero--product">
+      <canvas class="hero-particles" aria-hidden="true"></canvas>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Product</p>
+          <h1>A clear workflow, from <em>call</em> to your CRM</h1>
+          <p class="hero-lede">
+            The assistant is designed around one job: make sure every property enquiry is
+            answered, understood, and delivered to your team with the details needed to
+            follow up. Here is exactly how a call flows — and what is included versus
+            what we scope together.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn--wa"
+               href="https://wa.me/923090196403?text=Hi%2C%20I%27d%20like%20to%20see%20the%20AI%20assistant%20demo%20for%20my%20real%20estate%20agency."
+               target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.4 3.9.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>
+              Request a Demo on WhatsApp
+            </a>
+            <a class="btn btn--ghost" href="#scope">What's included</a>
+          </div>
+        </div>
+
+        <!-- 3D phone preview -->
+        <div class="phone-scene tilt-scene reveal" style="--d:150ms">
+          <div class="phone-tilt tilt-target" id="product-tilt">
+            <div class="phone" aria-hidden="true">
+              <div class="phone-screen">
+                <div class="mini-head">
+                  <span class="mini-avatar">S</span>
+                  <span class="mini-id">
+                    <strong>Sarah · AI</strong>
+                    <span>Enquiry line</span>
+                  </span>
+                  <span class="mini-status"><i></i>On call</span>
+                </div>
+                <div class="mini-bubble caller">Hi — do you have 2-bed apartments in Dubai Marina?</div>
+                <div class="mini-bubble assistant">Yes, from around AED 1.8M. What's your timeline?</div>
+                <div class="mini-bubble caller">Looking to buy in the next 2–3 months.</div>
+                <dl class="mini-req">
+                  <div><dt>Location</dt><dd>Dubai Marina</dd></div>
+                  <div><dt>Type</dt><dd>2-bed apt</dd></div>
+                  <div><dt>Budget</dt><dd>≈ AED 1.8M</dd></div>
+                  <div><dt>Timeline</dt><dd>2–3 months</dd></div>
+                </dl>
+                <div class="mini-foot">Summary → passed to your team</div>
+              </div>
+            </div>
+            <span class="orbit-chip orbit-chip--wa">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.4 3.9.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>
+              WhatsApp · custom setup
+            </span>
+            <span class="orbit-chip orbit-chip--crm">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              Basic CRM · in scope
+            </span>
+            <span class="orbit-chip orbit-chip--req">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Requirements captured
+            </span>
+          </div>
+          <p class="preview-label">Illustrative preview — not a live product screen.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Marquee ticker ================= -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <div class="ticker-group">
+          <span>Answered instantly</span><i>◆</i>
+          <span>Requirements captured</span><i>◆</i>
+          <span>After-hours covered</span><i>◆</i>
+          <span>Structured summaries</span><i>◆</i>
+          <span>Passed to your team</span><i>◆</i>
+          <span>No missed calls</span><i>◆</i>
+        </div>
+        <div class="ticker-group">
+          <span>Answered instantly</span><i>◆</i>
+          <span>Requirements captured</span><i>◆</i>
+          <span>After-hours covered</span><i>◆</i>
+          <span>Structured summaries</span><i>◆</i>
+          <span>Passed to your team</span><i>◆</i>
+          <span>No missed calls</span><i>◆</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= Workflow ================= -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Call workflow</p>
+          <h2>Three steps, every enquiry</h2>
+        </div>
+
+        <div class="rail-line" aria-hidden="true"></div>
+        <div class="flow">
+
+          <div class="flow-node reveal" style="--d:0ms">
+            <span class="tag">Step 1 · Caller</span>
+            <h3>The call comes in</h3>
+            <p>
+              A buyer or tenant calls your enquiry line — during office hours, after
+              hours, or while your team is busy with viewings.
+            </p>
+            <ul>
+              <li>Answered immediately, every time</li>
+              <li>Your agency's greeting and tone</li>
+              <li>No hold music, no voicemail dead-ends</li>
+            </ul>
+          </div>
+
+          <div class="flow-node reveal" style="--d:0ms">
+            <span class="tag">Step 2 · Assistant</span>
+            <h3>Questions answered, requirements captured</h3>
+            <p>
+              The assistant responds to common questions using the information your
+              agency agreed on, then collects what the caller is actually looking for.
+            </p>
+            <ul>
+              <li>Area, property type, purpose (buy or rent)</li>
+              <li>Budget range and timeline</li>
+              <li>Contact details for follow-up</li>
+            </ul>
+          </div>
+
+          <div class="flow-node reveal" style="--d:0ms">
+            <span class="tag">Step 3 · Your team</span>
+            <h3>Enquiry passed to the agency</h3>
+            <p>
+              Each enquiry arrives with a structured summary, so your agents start the
+              follow-up with the full picture instead of a missed-call notification.
+            </p>
+            <ul>
+              <li>Structured enquiry summary</li>
+              <li>Delivered to your team's workflow</li>
+              <li>Basic CRM integration included</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Horizontal journey (pinned scroll, desktop) ================= -->
+    <section class="h-scroll" id="journey" aria-label="Call journey overview">
+      <div class="h-stage">
+        <div class="container h-head">
+          <p class="eyebrow">From ring to follow-up</p>
+          <h2>The journey, left to right</h2>
+          <div class="h-progress" aria-hidden="true"><span></span></div>
+        </div>
+
+        <div class="h-track">
+          <article class="h-panel">
+            <span class="h-num">01</span>
+            <h3>The call comes in</h3>
+            <p>During office hours, after hours, or while your team is out on viewings — the enquiry line is answered.</p>
+          </article>
+
+          <article class="h-panel">
+            <span class="h-num">02</span>
+            <h3>Questions answered</h3>
+            <p>Common buyer and tenant questions get an immediate, consistent answer using the information your agency agreed on.</p>
+          </article>
+
+          <article class="h-panel">
+            <span class="h-num">03</span>
+            <h3>Requirements captured</h3>
+            <p>Area, property type, purpose, budget range and timeline — collected during a natural conversation.</p>
+          </article>
+
+          <article class="h-panel">
+            <span class="h-num">04</span>
+            <h3>Structured summary</h3>
+            <p>Every enquiry arrives in the same format, so agents start follow-up with the full picture instead of a missed-call notification.</p>
+          </article>
+
+          <article class="h-panel">
+            <span class="h-num">05</span>
+            <h3>Passed to your team</h3>
+            <p>Summaries reach your agents' workflow. Basic CRM integration is included; deeper CRM work is scoped separately.</p>
+          </article>
+
+          <article class="h-panel">
+            <span class="h-num">Demo</span>
+            <h3>See it on a real call</h3>
+            <p>We walk through the workflow on a live demo call, with your own enquiry flow as the example.</p>
+            <a class="btn btn--wa"
+               href="https://wa.me/923090196403?text=Hi%2C%20I%27d%20like%20to%20see%20the%20AI%20assistant%20demo%20for%20my%20real%20estate%20agency."
+               target="_blank" rel="noopener">Request a demo on WhatsApp</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= What it captures ================= -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Captured on the call</p>
+          <h2>The details agents actually need</h2>
+          <p>Every enquiry summary is built from what the caller says — not from a fixed form.</p>
+        </div>
+
+        <div class="card-grid cols-4">
+          <article class="card reveal" style="--d:0ms">
+            <h3>Location</h3>
+            <p>Areas and communities the caller is interested in, from Dubai Marina to Business Bay.</p>
+          </article>
+          <article class="card reveal" style="--d:90ms">
+            <h3>Property type</h3>
+            <p>Apartment, villa, townhouse, office — plus bedrooms and any must-haves.</p>
+          </article>
+          <article class="card reveal" style="--d:180ms">
+            <h3>Budget &amp; purpose</h3>
+            <p>Buy or rent, budget range, and financing status when the caller shares it.</p>
+          </article>
+          <article class="card reveal" style="--d:270ms">
+            <h3>Timeline &amp; contact</h3>
+            <p>When they want to move, and the best name and number for follow-up.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Scope ================= -->
+    <section class="section" id="scope">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Scope</p>
+          <h2>Included, scoped, or discussed separately</h2>
+          <p>
+            We agree the final scope and service terms with you before any work begins.
+            This table shows how each part of the service is treated.
+          </p>
+        </div>
+
+        <div class="scope-table-wrap reveal">
+          <table class="scope-table">
+            <thead>
+              <tr>
+                <th scope="col">Capability</th>
+                <th scope="col">How it's treated</th>
+                <th scope="col">Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Incoming call handling</strong></td>
+                <td><span class="pill pill--included">Included</span></td>
+                <td>Assistant answers buyer and tenant calls on your enquiry line.</td>
+              </tr>
+              <tr>
+                <td><strong>Answering common questions</strong></td>
+                <td><span class="pill pill--included">Included</span></td>
+                <td>Based on the information your agency agrees in advance, with monthly FAQ updates.</td>
+              </tr>
+              <tr>
+                <td><strong>Requirement capture &amp; handoff</strong></td>
+                <td><span class="pill pill--included">Included</span></td>
+                <td>Structured enquiry summaries passed to your team.</td>
+              </tr>
+              <tr>
+                <td><strong>Basic CRM integration</strong></td>
+                <td><span class="pill pill--scope">Subject to scope</span></td>
+                <td>Included, subject to your compatible CRM setup and the agreed scope.</td>
+              </tr>
+              <tr>
+                <td><strong>Monitoring &amp; tailored support</strong></td>
+                <td><span class="pill pill--scope">Subject to scope</span></td>
+                <td>Ongoing monitoring and support as defined in your package's agreed scope.</td>
+              </tr>
+              <tr>
+                <td><strong>WhatsApp message handling</strong></td>
+                <td><span class="pill pill--custom">Custom · discuss</span></td>
+                <td>Not a standard included feature. If you want WhatsApp message handling, we discuss a custom setup.</td>
+              </tr>
+              <tr>
+                <td><strong>Complex or custom CRM requirements</strong></td>
+                <td><span class="pill pill--custom">Custom · discuss</span></td>
+                <td>Custom integrations beyond basic CRM are scoped and quoted separately.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Common questions</p>
+          <h2>Straight answers on scope</h2>
+        </div>
+
+        <div class="faq reveal">
+          <details>
+            <summary>
+              Which CRMs does the assistant integrate with?
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </summary>
+            <p class="faq-body">
+              Basic CRM integration is included, subject to your compatible setup and the
+              agreed scope. If your CRM needs complex or custom work, we discuss that as a
+              separate custom setup before anything is built.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Can the assistant handle WhatsApp messages too?
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </summary>
+            <p class="faq-body">
+              WhatsApp message handling is a custom requirement for discussion — it is not
+              part of the standard packages and is not presented as a live feature today.
+              If it matters to your agency, tell us on WhatsApp and we'll scope it.
+            </p>
+          </details>
+          <details>
+            <summary>
+              How does the assistant know what to say?
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </summary>
+            <p class="faq-body">
+              You agree the information the assistant may use — listings overview, common
+              questions, service details — and packages include monthly FAQ updates so the
+              answers stay current with your agreed scope.
+            </p>
+          </details>
+          <details>
+            <summary>
+              When does my team take over a call?
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </summary>
+            <p class="faq-body">
+              The workflow is designed so the assistant captures the enquiry and passes it
+              to your team with a structured summary. Handover behaviour — for example when
+              a caller needs something outside the agreed scope — is defined together
+              during setup.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2>See the workflow in a demo</h2>
+          <p>
+            Message us on WhatsApp and we'll walk you through the call flow, the enquiry
+            summary and how it maps to your agency's process.
+          </p>
+          <a class="btn btn--wa"
+             href="https://wa.me/923090196403?text=Hi%2C%20I%27d%20like%20to%20see%20the%20AI%20assistant%20demo%20for%20my%20real%20estate%20agency."
+             target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.4 3.9.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>
+            Request a Demo on WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <span class="brand-mark" aria-hidden="true">
+              <img src="assets/img/brand-monogram.png" alt="" width="48" height="48" loading="lazy">
+            </span>
+            <span class="brand-name">Suleman Automates<small>Voice AI</small></span>
+          </a>
+          <p>
+            AI voice assistants for real estate brokerages. Answered calls, captured
+            requirements, and enquiries your team can act on.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h3>Site</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="product.html">Product</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Contact</h3>
+          <ul>
+            <li><a href="https://wa.me/923090196403?text=Hi%2C%20I%27d%20like%20to%20see%20the%20AI%20assistant%20demo%20for%20my%20real%20estate%20agency." target="_blank" rel="noopener">WhatsApp — request a demo</a></li>
+            <li><a href="mailto:suleman.automates@sulemanautomate.site">suleman.automates@sulemanautomate.site</a></li>
+            <li><a href="pricing.html">View packages</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <span>© <span id="year">2026</span> Suleman Automates. All rights reserved.</span>
+        <span>Preview content on this site is illustrative and not a record of real calls or results.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/vendor/gsap.min.js" defer></script>
+  <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/vendor/SplitText.min.js" defer></script>
+  <script src="assets/js/vendor/lenis.min.js" defer></script>
+  <script src="assets/js/global.js" defer></script>
+</body>
+</html>
