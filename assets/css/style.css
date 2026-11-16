@@ -243,6 +243,10 @@ html.intro-pending body { visibility: hidden; }
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--ivory-faint);
+  transition:
+    background var(--t-med),
+    border-color var(--t-med),
+    box-shadow var(--t-med);
 }
 .site-header::before {
   content: "";
@@ -253,6 +257,39 @@ html.intro-pending body { visibility: hidden; }
   background: linear-gradient(rgba(38, 9, 13, 0.55), transparent);
   mask-image: linear-gradient(black, transparent);
 }
+
+/* Gold hairline glow along the header's bottom edge — lights up once the
+   page is scrolled (see .is-scrolled below). */
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(224, 196, 143, 0.15) 18%,
+    rgba(224, 196, 143, 0.6) 50%,
+    rgba(224, 196, 143, 0.15) 82%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--t-med);
+}
+
+/* Scrolled state: slightly deeper glass so content reads through it less,
+   a faint gold edge, and a soft drop shadow — the header "settles" */
+.site-header.is-scrolled {
+  background: rgba(29, 7, 11, 0.93);
+  border-bottom-color: rgba(201, 168, 106, 0.26);
+  box-shadow:
+    0 1px 0 rgba(201, 168, 106, 0.18),
+    0 10px 30px rgba(10, 2, 4, 0.45);
+}
+.site-header.is-scrolled::after { opacity: 1; }
 
 .header-inner {
   height: var(--header-h);
@@ -268,6 +305,30 @@ html.intro-pending body { visibility: hidden; }
   gap: 0.7rem;
   text-decoration: none;
   color: var(--ivory);
+}
+
+/* Soft red-wine radial glow sitting behind the brand in the header —
+   quiet blood-wine accent. Painted above the header's own background but
+   below the text (negative z-index inside the header's stacking context). */
+.site-header .brand {
+  position: relative;
+}
+.site-header .brand::before {
+  content: "";
+  position: absolute;
+  left: -1.4rem;
+  top: 50%;
+  width: 10rem;
+  height: 10rem;
+  transform: translateY(-50%);
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle closest-side,
+    rgba(158, 46, 54, 0.4),
+    rgba(158, 46, 54, 0.14) 55%,
+    transparent 75%
+  );
 }
 
 /* Brand mark: the provided monogram image, cropped to its centered square */
@@ -1985,4 +2046,83 @@ html.intro-pending body { visibility: hidden; }
   .cursor-spotlight { display: none; }
   .ticker-track { animation: none; }
   .section-head h2, .h-head h2, .hero-copy .eyebrow { animation: none; }
+}
+
+/* ==========================================================================
+   ReactBits-style effects (vanilla ports)
+   1. Rotating Text — hero headline word cycles (rot-word)
+   2. Blur Text — section headings resolve from blur on scroll
+   3. Glare Hover — cursor-following light sweep on cards
+   4. Count Up — pricing numbers count from zero (JS, no CSS needed)
+   5. Magnet — CTAs pull toward the cursor (JS, no CSS needed)
+   6. Scroll Velocity — ticker speed reacts to scroll (JS, CSS anim is fallback)
+   ========================================================================== */
+
+/* ---------- 1. Rotating Text (hero headline word) ---------- */
+.rot-word {
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  line-height: 1.16;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.rot-word span {
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+  will-change: transform, opacity;
+}
+.rot-word span.is-leaving {
+  transform: translateY(-115%);
+  opacity: 0;
+}
+.rot-word span.is-entering {
+  transform: translateY(115%);
+  opacity: 0;
+  transition: none;
+}
+
+/* ---------- 2. Blur Text (scroll reveal) ----------
+   JS adds .blur-init, then .in-view when the heading enters the viewport.
+   No JS / reduced motion: headings stay fully crisp. */
+.blur-init {
+  filter: blur(9px);
+  opacity: 0.35;
+  transition: filter 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.9s ease;
+}
+.blur-init.in-view {
+  filter: blur(0);
+  opacity: 1;
+}
+
+/* ---------- 3. Glare Hover (cursor-following light sweep) ---------- */
+.glare {
+  position: relative;
+}
+.glare::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    340px circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(244, 213, 142, 0.15),
+    transparent 62%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.glare:hover::after { opacity: 1; }
+
+/* ---------- Reduced motion: ReactBits effects off ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .rot-word { overflow: visible; padding-bottom: 0; margin-bottom: 0; }
+  .rot-word span { transition: none; }
+  .rot-word span.is-leaving, .rot-word span.is-entering {
+    transform: none;
+    opacity: 1;
+  }
+  .blur-init { filter: none; opacity: 1; }
+  .glare::after { display: none; }
 }

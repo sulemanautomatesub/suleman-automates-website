@@ -130,6 +130,26 @@
     }, start);
   }
 
+  /* ---------- Header scroll state: deeper glass + gold edge when scrolled ---------- */
+  function initHeaderState() {
+    var header = document.querySelector('.site-header');
+    if (!header || header.dataset.scrollStateBound) return;
+    header.dataset.scrollStateBound = '1';
+
+    var ticking = false;
+    function update() {
+      ticking = false;
+      header.classList.toggle('is-scrolled', (window.scrollY || 0) > 12);
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    });
+    update();
+  }
+
   /* ---------- Mobile menu ---------- */
   function initMenu() {
     var btn = document.querySelector('.menu-btn');
@@ -400,7 +420,14 @@
      visits it plays almost immediately. Vanilla fallback: none needed — the
      headline is simply already visible if SplitText is unavailable. */
   function initHeadlineReveal(introPlayed) {
-    if (reducedMotion.matches || !hasSplit) return;
+    if (reducedMotion.matches) return;
+
+    // No SplitText: headline is already visible — start rotating the word
+    // shortly after load so it still feels alive.
+    if (!hasSplit) {
+      window.setTimeout(initRotatingWord, 900);
+      return;
+    }
 
     var whenReady = (document.fonts && document.fonts.ready)
       ? Promise.resolve(document.fonts.ready)
@@ -421,7 +448,8 @@
           duration: 0.7,
           ease: 'power3.out',
           stagger: 0.035,
-          delay: delay
+          delay: delay,
+          onComplete: initRotatingWord // start the word cycle once glyphs settle
         });
       });
 
@@ -694,6 +722,181 @@
     })();
   }
 
+  /* ---------- ReactBits-style: Rotating Text (hero headline word) ----------
+     The <em class="rot-word" data-words='[...]'> word cycles through phrases
+     with a vertical roll. Started after the SplitText reveal finishes so the
+     two animations never fight over the same glyphs. */
+  function initRotatingWord() {
+    document.querySelectorAll('.hero-copy h1 .rot-word').forEach(function (el) {
+      if (el.dataset.rotBound) return;
+      el.dataset.rotBound = '1';
+
+      var words = [];
+      try { words = JSON.parse(el.getAttribute('data-words') || '[]'); } catch (e) { words = []; }
+      if (!words.length) return;
+      if (reducedMotion.matches || words.length < 2) return;
+
+      var span = document.createElement('span');
+      span.textContent = words[0];
+      el.textContent = '';
+      el.appendChild(span);
+
+      var idx = 0;
+      window.setInterval(function () {
+        idx = (idx + 1) % words.length;
+        span.classList.add('is-leaving');
+        window.setTimeout(function () {
+          span.textContent = words[idx];
+          span.classList.remove('is-leaving');
+          span.classList.add('is-entering');
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              span.classList.remove('is-entering');
+            });
+          });
+        }, 430);
+      }, 2700);
+    });
+  }
+
+  /* ---------- ReactBits-style: Blur Text (section headings resolve) ---------- */
+  function initBlurText() {
+    if (reducedMotion.matches || !('IntersectionObserver' in window)) return;
+    var targets = document.querySelectorAll(
+      '.section-head h2, .h-head h2, .cta-band h2, .pricing-scope h2'
+    );
+    targets.forEach(function (h) {
+      if (!h.dataset.blurBound) {
+        h.dataset.blurBound = '1';
+        h.classList.add('blur-init');
+      }
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.blur-init:not(.in-view)').forEach(function (h) {
+      io.observe(h);
+    });
+  }
+
+  /* ---------- ReactBits-style: Count Up (pricing numbers) ----------
+     Elements carry .count-up + data-count. HTML holds the final value, so the
+     page is correct without JS; with JS the value counts up from zero when
+     the element enters the viewport. */
+  function initCountUp() {
+    var els = document.querySelectorAll('.count-up');
+    if (!els.length) return;
+    var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
+
+    els.forEach(function (el) {
+      if (el.dataset.countBound) return;
+      el.dataset.countBound = '1';
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      if (isNaN(target)) return;
+
+      if (reducedMotion.matches || !hasGsap) return; // keep static final value
+      el.textContent = fmt(0);
+      var obj = { v: 0 };
+      window.gsap.to(obj, {
+        v: target,
+        duration: 1.6,
+        ease: 'power2.out',
+        onUpdate: function () { el.textContent = fmt(obj.v); },
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+      });
+    });
+  }
+
+  /* ---------- ReactBits-style: Magnet (CTAs pull toward the cursor) ---------- */
+  function initMagnet() {
+    if (reducedMotion.matches) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    document.querySelectorAll(
+      '.hero-actions .btn, .header-cta, .cta-band .btn, .pricing-scope .btn, .h-panel .btn'
+    ).forEach(function (btn) {
+      if (btn.dataset.magnetBound) return;
+      btn.dataset.magnetBound = '1';
+
+      var strength = 0.28;
+      var max = 10;
+      btn.addEventListener('pointermove', function (e) {
+        var r = btn.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width / 2);
+        var dy = e.clientY - (r.top + r.height / 2);
+        var x = Math.max(-max, Math.min(max, dx * strength));
+        var y = Math.max(-max, Math.min(max, dy * strength));
+        btn.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
+      });
+      btn.addEventListener('pointerleave', function () {
+        btn.style.transform = '';
+      });
+    });
+  }
+
+  /* ---------- ReactBits-style: Glare Hover (cards get a light sweep) ---------- */
+  function initGlare() {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    document.querySelectorAll(
+      '.card, .step, .flow-node, .price-card, .info-card, .h-panel, .calc-form, .calc-results, .cta-band'
+    ).forEach(function (card) {
+      if (card.classList.contains('glare')) return;
+      card.classList.add('glare');
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--gx', (((e.clientX - r.left) / r.width) * 100).toFixed(1) + '%');
+        card.style.setProperty('--gy', (((e.clientY - r.top) / r.height) * 100).toFixed(1) + '%');
+      });
+    });
+  }
+
+  /* ---------- ReactBits-style: Scroll Velocity (ticker follows scroll) ----------
+     JS drives the marquee transform: a slow base crawl plus a boost from the
+     scroll speed — scrolling down speeds it up, scrolling up can even run it
+     backwards. Falls back to the CSS keyframe animation without JS. */
+  function initTickerVelocity() {
+    document.querySelectorAll('.ticker').forEach(function (ticker) {
+      var track = ticker.querySelector('.ticker-track');
+      var group = track && track.querySelector('.ticker-group');
+      if (!track || !group || track.dataset.tickerBound) return;
+      track.dataset.tickerBound = '1';
+      if (reducedMotion.matches) return;
+
+      track.style.animation = 'none';
+      var x = 0;
+      var groupW = group.offsetWidth;
+      var last = null;
+      var lastScroll = window.scrollY;
+      var vel = 0;
+
+      window.addEventListener('resize', function () { groupW = group.offsetWidth; });
+
+      function frame(now) {
+        if (last === null) last = now;
+        var dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+
+        var y = window.scrollY;
+        var dv = dt > 0 ? (y - lastScroll) / dt : 0;
+        lastScroll = y;
+        vel += (dv - vel) * 0.08; // smooth the scroll-velocity estimate
+
+        var speed = 60 + Math.max(-520, Math.min(520, vel * 0.35));
+        x -= speed * dt;
+        var w = groupW || 1;
+        x = ((x % w) + w) % w;
+        track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
   /* ---------- Footer year ---------- */
   function initYear() {
     var el = document.getElementById('year');
@@ -704,6 +907,7 @@
   headerEntrance(played);
   initSmoothScroll();
   initMenu();
+  initHeaderState();
   initReveals();
   initScrollPanels();
   initRailLines();
@@ -714,5 +918,10 @@
   initProgressBar();
   initHeroParticles();
   initHeadlineReveal(played);
+  initBlurText();
+  initCountUp();
+  initMagnet();
+  initGlare();
+  initTickerVelocity();
   initYear();
 })();
