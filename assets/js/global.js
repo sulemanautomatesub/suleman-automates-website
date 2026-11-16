@@ -897,6 +897,58 @@
     });
   }
 
+  /* ---------- Cinematic hero: scroll parallax over the CSS/SVG scene ---------- */
+  function initCinemaParallax() {
+    if (!document.querySelector('.hero--cinema')) return;
+    if (reducedMotion.matches || !window.gsap || !window.ScrollTrigger) return;
+
+    var mm = window.gsap.matchMedia();
+    mm.add('(min-width: 861px)', function () {
+      // Sky settles slower than scroll (background), the watermark and near
+      // skyline drift up faster than scroll (foreground) — that speed
+      // difference is what sells the depth.
+      window.gsap.to('.cinema-sky', {
+        yPercent: 10,
+        scale: 1.08,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: 'bottom top', scrub: true }
+      });
+      window.gsap.to('.cinema-moon', {
+        yPercent: 14,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: 'bottom top', scrub: true }
+      });
+      window.gsap.to('.cinema-skyline--far', {
+        yPercent: 10,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: 'bottom top', scrub: true }
+      });
+      window.gsap.to('.cinema-skyline--near', {
+        yPercent: -16,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: 'bottom top', scrub: true }
+      });
+      window.gsap.to('.cinema-watermark', {
+        yPercent: -30,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: 'bottom top', scrub: true }
+      });
+      // Optional pointer parallax — a few pixels only, tuned to not fight scrub.
+      if (window.matchMedia('(pointer: fine)').matches) {
+        var qx = window.gsap.quickTo('.cinema-moon', 'x', { duration: 0.8, ease: 'power3.out' });
+        var qy = window.gsap.quickTo('.cinema-moon', 'y', { duration: 0.8, ease: 'power3.out' });
+        window.addEventListener('mousemove', function (e) {
+          var nx = e.clientX / window.innerWidth - 0.5;
+          var ny = e.clientY / window.innerHeight - 0.5;
+          qx(nx * 14); qy(ny * 10);
+        }, { passive: true });
+      }
+      return function () {
+        window.gsap.set('.cinema-sky, .cinema-moon, .cinema-skyline, .cinema-watermark', { clearProps: 'all' });
+      };
+    });
+  }
+
   /* ---------- Footer year ---------- */
   function initYear() {
     var el = document.getElementById('year');
@@ -918,6 +970,7 @@
   initProgressBar();
   initHeroParticles();
   initHeadlineReveal(played);
+  initCinemaParallax();
   initBlurText();
   initCountUp();
   initMagnet();
