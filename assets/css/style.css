@@ -2126,3 +2126,210 @@ html.intro-pending body { visibility: hidden; }
   .blur-init { filter: none; opacity: 1; }
   .glare::after { display: none; }
 }
+
+/* ==========================================================================
+   Home redesign: visual-first
+   1. Animated call-flow demo (How it works)
+   2. Mini mock notifications inside use-case cards
+   ========================================================================== */
+
+/* ---------- 1. Flow demo: 4 stages light up in sequence, looping ---------- */
+.flow-demo {
+  position: relative;
+  margin-top: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.25rem, 3vw, 2.5rem);
+  background: rgba(242, 236, 220, 0.025);
+  border: 1px solid var(--ivory-faint);
+  border-radius: 20px;
+}
+
+/* Rail between the first and last node centres; the gold dot travels it.
+   The dot's 8s loop is the clock every stage syncs to. */
+.flow-rail {
+  position: absolute;
+  top: clamp(1.75rem, 4vw, 2.75rem);
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(201, 168, 106, 0.35), rgba(201, 168, 106, 0.16));
+  overflow: hidden;
+}
+.flow-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--gold-bright);
+  box-shadow: 0 0 12px rgba(224, 196, 143, 0.8);
+  opacity: 0;
+  animation: flow-dot-run 8s linear infinite;
+}
+@keyframes flow-dot-run {
+  0%   { left: 0%; opacity: 0; }
+  3%   { opacity: 1; }
+  97%  { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+.flow-nodes {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.fnode {
+  --i: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  width: 132px;
+  text-align: center;
+}
+.fnode-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  color: var(--ivory-dim);
+  background: rgba(38, 9, 13, 0.85);
+  border: 1px solid var(--ivory-faint);
+  animation: fnode-cycle 8s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 2.6667s);
+}
+.fnode-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ivory-dim);
+  animation: fnode-label-cycle 8s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 2.6667s);
+}
+@keyframes fnode-cycle {
+  0%, 1% { color: var(--ivory-dim); border-color: var(--ivory-faint); box-shadow: none; }
+  6%, 26% {
+    color: var(--gold-bright);
+    border-color: rgba(201, 168, 106, 0.6);
+    box-shadow: 0 0 24px rgba(201, 168, 106, 0.22);
+  }
+  34%, 100% { color: var(--ivory-dim); border-color: var(--ivory-faint); box-shadow: none; }
+}
+@keyframes fnode-label-cycle {
+  0%, 1%, 34%, 100% { color: var(--ivory-dim); }
+  6%, 26% { color: var(--ivory); }
+}
+
+/* Captured-details chips pop in once, staggered, after the demo is seen */
+.flow-capture {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: clamp(1.4rem, 3vw, 2rem);
+}
+.cap-chip {
+  --i: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(201, 168, 106, 0.35);
+  background: rgba(201, 168, 106, 0.08);
+  color: var(--ivory);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flow-demo.in-view .cap-chip {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(1.1s + var(--i) * 0.45s);
+}
+.cap-chip--team {
+  border-color: rgba(201, 168, 106, 0.55);
+  background: rgba(201, 168, 106, 0.16);
+  color: var(--gold-bright);
+}
+
+@media (max-width: 700px) {
+  .flow-rail { display: none; }
+  .flow-nodes { display: grid; grid-template-columns: repeat(2, 1fr); justify-items: center; gap: 1.5rem; }
+  .fnode { width: auto; }
+  .fnode-icon { animation: none; color: var(--gold-bright); border-color: rgba(201, 168, 106, 0.4); }
+  .fnode-label { animation: none; color: var(--ivory); }
+}
+
+/* ---------- 2. Mini mock panels inside use-case cards ---------- */
+.mock {
+  margin-top: var(--sp-4);
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.55rem;
+  background: rgba(10, 2, 4, 0.35);
+  border: 1px solid var(--ivory-faint);
+  border-radius: 12px;
+}
+.mock-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 0.83rem;
+  line-height: 1.45;
+  color: var(--ivory-dim);
+}
+.mock-row--win .mock-text {
+  color: var(--gold-bright);
+  font-weight: 500;
+}
+.mock-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  align-self: center;
+}
+.mock-dot--off { background: rgba(158, 46, 54, 0.8); }
+.mock-dot--gold { background: var(--gold-bright); box-shadow: 0 0 8px rgba(224, 196, 143, 0.6); }
+.mock-time {
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+.mock--rows { gap: 0; padding: 0.35rem 0.9rem; }
+.mock-kv {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(242, 236, 220, 0.08);
+  font-size: 0.83rem;
+}
+.mock-kv:last-child { border-bottom: 0; }
+.mock-kv span {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+}
+.mock-kv b { color: var(--ivory); font-weight: 600; }
+
+/* ---------- Reduced motion: home redesign visuals ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .flow-dot { display: none; }
+  .fnode-icon, .fnode-label { animation: none; }
+  .fnode-icon { color: var(--gold-bright); border-color: rgba(201, 168, 106, 0.4); }
+  .fnode-label { color: var(--ivory); }
+  .cap-chip { opacity: 1; transform: none; }
+}
