@@ -933,6 +933,23 @@
         ease: 'none',
         scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: 'bottom top', scrub: true }
       });
+      window.gsap.to('.cinema-stars', {
+        yPercent: 6,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: 'bottom top', scrub: true }
+      });
+      // Copy and scroll cue dissolve as the scene takes over the viewport
+      window.gsap.to('.hero-copy--center', {
+        opacity: 0,
+        y: -70,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: '55% top', scrub: true }
+      });
+      window.gsap.to('.cinema-scrollcue', {
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero--cinema', start: 'top top', end: '18% top', scrub: true }
+      });
       // Optional pointer parallax — a few pixels only, tuned to not fight scrub.
       if (window.matchMedia('(pointer: fine)').matches) {
         var qx = window.gsap.quickTo('.cinema-moon', 'x', { duration: 0.8, ease: 'power3.out' });
@@ -944,7 +961,7 @@
         }, { passive: true });
       }
       return function () {
-        window.gsap.set('.cinema-sky, .cinema-moon, .cinema-skyline, .cinema-watermark', { clearProps: 'all' });
+        window.gsap.set('.cinema-sky, .cinema-moon, .cinema-skyline, .cinema-watermark, .cinema-stars, .hero-copy--center, .cinema-scrollcue', { clearProps: 'all' });
       };
     });
   }

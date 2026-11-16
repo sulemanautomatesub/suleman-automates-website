@@ -2340,9 +2340,70 @@ html.intro-pending body { visibility: hidden; }
    window lights, fog, grain, vignette — no image files, fully brand-tuned)
    ========================================================================== */
 .hero--cinema {
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+.hero--cinema .hero-copy-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+/* Giant centered type — the scene carries the hero, the copy sits inside it */
+.hero-copy--center { text-align: center; }
+.hero--cinema h1 {
+  font-size: clamp(2.9rem, 1.6rem + 7.4vw, 7.4rem);
+  line-height: 1.02;
+  max-width: 16ch;
+  margin-inline: auto;
+  letter-spacing: -0.015em;
+}
+.hero--cinema .hero-lede {
+  margin-inline: auto;
+  max-width: 46ch;
+  font-size: clamp(1rem, 0.9rem + 0.6vw, 1.3rem);
+}
+.hero--cinema .hero-actions { justify-content: center; }
+.hero--cinema .hero-particles { z-index: 2; opacity: 0.55; }
+
+/* Scroll cue — thin gold line with a travelling glint */
+.cinema-scrollcue {
+  position: absolute;
+  bottom: clamp(1rem, 3.2vw, 2.2rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgba(242, 236, 220, 0.55);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.cinema-scrollcue i {
+  position: relative;
+  width: 1px;
+  height: 44px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, rgba(224, 196, 143, 0.35), transparent);
+}
+.cinema-scrollcue i::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -45%;
+  width: 100%;
+  height: 45%;
+  background: var(--gold-bright);
+  animation: cue-drop 2.4s ease-in-out infinite;
+}
+@keyframes cue-drop {
+  0% { top: -45%; }
+  75%, 100% { top: 110%; }
 }
 .cinema-bg {
   position: absolute;
@@ -2361,6 +2422,42 @@ html.intro-pending body { visibility: hidden; }
   will-change: transform;
 }
 
+/* Stars — two parallax-dot fields, one of them twinkling */
+.cinema-stars {
+  position: absolute;
+  inset: -4%;
+  background-image:
+    radial-gradient(1.3px 1.3px at 22% 16%, rgba(244, 232, 208, 0.9), transparent 62%),
+    radial-gradient(1px 1px at 61% 8%, rgba(244, 232, 208, 0.6), transparent 62%),
+    radial-gradient(1.5px 1.5px at 79% 24%, rgba(224, 196, 143, 0.85), transparent 62%),
+    radial-gradient(1px 1px at 41% 31%, rgba(244, 232, 208, 0.5), transparent 62%),
+    radial-gradient(1.2px 1.2px at 89% 12%, rgba(244, 232, 208, 0.7), transparent 62%),
+    radial-gradient(1px 1px at 7% 7%, rgba(244, 232, 208, 0.55), transparent 62%),
+    radial-gradient(1.2px 1.2px at 52% 20%, rgba(224, 196, 143, 0.6), transparent 62%);
+  background-repeat: repeat;
+  background-size: 460px 320px;
+  opacity: 0.75;
+  will-change: transform;
+}
+.cinema-stars::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 33% 22%, rgba(244, 232, 208, 0.8), transparent 62%),
+    radial-gradient(1.4px 1.4px at 70% 6%, rgba(224, 196, 143, 0.75), transparent 62%),
+    radial-gradient(1px 1px at 14% 26%, rgba(244, 232, 208, 0.6), transparent 62%),
+    radial-gradient(1.2px 1.2px at 94% 30%, rgba(244, 232, 208, 0.65), transparent 62%),
+    radial-gradient(1px 1px at 58% 14%, rgba(244, 232, 208, 0.55), transparent 62%);
+  background-repeat: repeat;
+  background-size: 380px 260px;
+  animation: stars-twinkle 5.5s ease-in-out infinite alternate;
+}
+@keyframes stars-twinkle {
+  from { opacity: 0.12; }
+  to { opacity: 0.8; }
+}
+
 /* Crimson moon hanging over the skyline — placed in the open sky on the
    left so the call card (right column) never covers it */
 .cinema-moon {
@@ -2376,6 +2473,15 @@ html.intro-pending body { visibility: hidden; }
     0 0 160px 60px rgba(158, 46, 54, 0.22);
   opacity: 0.9;
   will-change: transform;
+  animation: moon-breathe 9s ease-in-out infinite;
+}
+@keyframes moon-breathe {
+  0%, 100% {
+    box-shadow: 0 0 60px 12px rgba(210, 74, 85, 0.4), 0 0 160px 60px rgba(158, 46, 54, 0.22);
+  }
+  50% {
+    box-shadow: 0 0 76px 18px rgba(210, 74, 85, 0.5), 0 0 195px 74px rgba(158, 46, 54, 0.3);
+  }
 }
 @media (max-width: 860px) {
   .cinema-moon { left: auto; right: 10%; top: 9%; }
@@ -2400,13 +2506,28 @@ html.intro-pending body { visibility: hidden; }
   filter: drop-shadow(0 0 22px rgba(210, 74, 85, 0.14));
 }
 
-/* Atmospheric fog drifting over the city */
+/* Atmospheric fog drifting over the city — a slow blurred layer slides behind */
 .cinema-fog {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(to top, rgba(38, 9, 13, 0.92) 0%, rgba(38, 9, 13, 0.35) 26%, transparent 55%),
     radial-gradient(52% 34% at 68% 30%, rgba(210, 74, 85, 0.12), transparent 70%);
+}
+.cinema-fog::before {
+  content: "";
+  position: absolute;
+  left: -30%;
+  right: -30%;
+  top: 48%;
+  height: 64%;
+  background: radial-gradient(58% 100% at 50% 50%, rgba(122, 32, 42, 0.16), transparent 72%);
+  filter: blur(12px);
+  animation: fog-drift 26s ease-in-out infinite alternate;
+}
+@keyframes fog-drift {
+  from { transform: translateX(-6%); }
+  to { transform: translateX(6%); }
 }
 
 /* Giant outlined watermark type drifting behind the hero content */
@@ -2444,11 +2565,35 @@ html.intro-pending body { visibility: hidden; }
   background-size: 240px 240px;
 }
 
+/* A few windows flicker — the city feels alive */
+.cinema-skyline--near g:nth-of-type(2) rect:nth-child(4n + 2),
+.cinema-skyline--near g:nth-of-type(3) rect:nth-child(5n + 3) {
+  animation: light-flicker 5s ease-in-out infinite;
+}
+@keyframes light-flicker {
+  0%, 86%, 100% { opacity: 0.75; }
+  90% { opacity: 0.15; }
+  94% { opacity: 0.75; }
+}
+
 /* Hero content sits above the scene; particles get a slight lift too */
 .hero--cinema .hero-grid { position: relative; z-index: 2; }
-.hero--cinema .hero-particles { z-index: 2; opacity: 0.55; }
 
 /* Reduced motion: static scene, still looks complete */
 @media (prefers-reduced-motion: reduce) {
-  .cinema-sky, .cinema-moon, .cinema-skyline, .cinema-watermark { transform: none !important; }
+  .cinema-sky, .cinema-moon, .cinema-skyline, .cinema-watermark, .cinema-stars { transform: none !important; }
+  .cinema-scrollcue i::after,
+  .cinema-stars::after,
+  .cinema-fog::before,
+  .cinema-moon,
+  .cinema-skyline--near g rect { animation: none !important; }
+  .cinema-skyline--near g:nth-of-type(2) rect:nth-child(4n + 2),
+  .cinema-skyline--near g:nth-of-type(3) rect:nth-child(5n + 3) { opacity: 0.75; }
 }
+
+/* ---------- Live preview section: the call card gets its own stage ---------- */
+.section--preview .preview-scene {
+  max-width: 660px;
+  margin-inline: auto;
+}
+.section--preview .preview-label { text-align: center; }
